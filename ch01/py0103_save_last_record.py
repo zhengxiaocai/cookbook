@@ -1,5 +1,6 @@
 """
 在迭代操作或者其他操作的时候，怎样保留有限的几个记录？
+>>TODO: 在deque()两端操作，时间复杂度都是O(1),列表是O(n)
 """
 from collections import deque
 
@@ -14,12 +15,12 @@ def search(lines, pattern, history=5):
 
 if __name__ == '__main__':
     with open('py0103.txt', 'r') as f:
-        for line, prevlines in search(f, ',', 5):
-            for pline in prevlines:
+        for line, previous_lines in search(f, ','):
+            for pline in previous_lines:
                 print(pline, end='')
-            # print(line, end='')
-            print('-' * 20)
+            print('=' * 20)
 
+    # 大小定死的一个容器，先进先出
     q = deque(maxlen=3)
     q.append(1)
     q.append(2)
@@ -29,23 +30,16 @@ if __name__ == '__main__':
     print(q)
     q.append(5)
     print(q)
+    q.appendleft(6)
+    print(q)
 
-    # 如果不设置maxlen，就会得到一个无限长度的len
-    # 可以在队列的两端执行添加和弹出操作
-    d = deque()
-    d.append(1)
-    d.append(2)
-    d.append(3)
-    print(d)
-    d.appendleft(4)
-    print(d)
-    d.popleft()
-    print(d)
-    d.append(5)
-    print(d)
-    d.pop()
-    print(d)
+    # 不设定最大宽度，就是一个无限的
+    p = deque()
+    p.append(1)
+    p.append(2)
+    p.append(3)
 
-    # 在队列的两端增删元素的时间复杂度为O(1),在列表为O(n)
-
-
+    # >>TODO: 左边操作 appendleft(a)  popleft()
+    p.appendleft(4)
+    p.popleft()
+    print(p)

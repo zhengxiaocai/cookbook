@@ -9,14 +9,12 @@ heapq.nsmallest(n, seq)
 """
 import heapq
 
-
 if __name__ == '__main__':
-    # 简单示例
-    nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2, -3]
+    nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]
     print(heapq.nlargest(3, nums))
     print(heapq.nsmallest(3, nums))
 
-    # 使用于复杂模型，使用lambda
+    # 跟sorted() min() 一样，也可以接受一个key参数，用于更复杂的
     portfolio = [
         {'name': 'IBM', 'shares': 100, 'price': 91.1},
         {'name': 'AAPL', 'shares': 50, 'price': 543.22},
@@ -25,19 +23,15 @@ if __name__ == '__main__':
         {'name': 'YHOO', 'shares': 45, 'price': 16.35},
         {'name': 'ACME', 'shares': 75, 'price': 115.65}
     ]
-    print(heapq.nlargest(3, portfolio, lambda x: x['price']))
-    print(heapq.nsmallest(3, portfolio, lambda x: x['shares']))
+    cheap = heapq.nsmallest(3, portfolio, key=lambda x: x['price'])
+    expensive = heapq.nlargest(3, portfolio, key=lambda x: x['price'])
+    print(cheap)
+    print(expensive)
 
-    # 堆排序heap[0]永远是最小的。
-    # nsmallest内部实现，首先放入list，然后heapq.heapify(list(seq))
-    # 第一个元素用  heapq.heapify(heap)，剩下的用heapq.heappop(heap)实现。
+    # >>TODO: 首先会把list转成heap(堆)，堆的特性就是heap[0]最小
+    nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]
     heap = list(nums)
     heapq.heapify(heap)
     print(heap)
-
     print(heapq.heappop(heap))
-    print(heapq.heappop(heap))
-    print(heapq.heappop(heap))
-
-
-
+    print(heap)
